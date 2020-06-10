@@ -1,2 +1,2 @@
-# snaplost
-Lost and Found web application
+## Snaplost
+A Lost and Found web application
