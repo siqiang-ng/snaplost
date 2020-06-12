@@ -8,29 +8,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@700&display=swap" rel="stylesheet">
+  <link href="{{ url_for('static', filename='style.css' )}}" rel="stylesheet">  
 
-  <style>
-    /* Remove the navbar's default rounded borders and increase the bottom margin */ 
-    .navbar {
-      margin-bottom: 50px;
-      border-radius: 0;
-    }
-    
-    /* Remove the jumbotron's default bottom margin */ 
-     .jumbotron {
-      margin-bottom: 0;
-    }
-   
-   .navbar-nav.navbar-center { 
-      position: absolute; 
-      left: 50%; 
-      transform: translatex(-50%); 
-    }
-    
-    .navbar-inverse { 
-        background-color: #002970; 
-    } 
-  </style>
 </head>
 <body>
 
@@ -63,7 +42,8 @@
        </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
+        <li><a href="#">Login</a></li>
+        <li><a href="#">Register</a></li>
       </ul>
       
     </div>
