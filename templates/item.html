@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2> {% block title %} {{ item['item'] }} {% endblock %} </h2>
+    <ul>
+        <li> Description: {{ item['description'] }} </li>
+        <li> Date: {{ item['occurdate'] }} </li>
+        <li> Time: {{ item['time'] }} </li>
+    </ul>
+    
+{% endblock %}
