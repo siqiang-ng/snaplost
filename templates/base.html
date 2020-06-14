@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{% block title %} {% endblock %}</title>
+  <title>{% block title %} {% endblock %} - Snaplost</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -9,6 +9,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@700&display=swap" rel="stylesheet">
   <link href="{{ url_for('static', filename='style.css' )}}" rel="stylesheet">  
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@700&display=swap" rel="stylesheet">
 
 </head>
 <body>
@@ -24,12 +25,9 @@
       <a class="navbar-brand" href="{{ url_for('home') }}">Snaplost.</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li><a href="#">New Listing</a></li>
-      </ul>
     
-      <ul class=" nav navbar-nav navbar-center"> 
-		<form class="navbar-form navbar-right" role="search">
+      <ul class="nav navbar-nav navbar-center">
+		<form class="navbar-form navbar-center" role="search">
         	<div class="form-group input-group">
           	<input type="text" class="form-control" placeholder="Search..">
           	<span class="input-group-btn">

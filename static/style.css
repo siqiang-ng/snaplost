@@ -9,21 +9,43 @@
     margin-bottom: 0;
 }
 
+/* Move the search bar to the center */
 .navbar-nav.navbar-center { 
     position: absolute; 
     left: 50%; 
     transform: translatex(-50%); 
 }
 
+/* Change the whole background color of the navbar to blue */
 .navbar-inverse { 
     background-color: #002970; 
 }
 
+/* Change the texts in navbar to orange */
 .navbar-inverse .navbar-brand,
 .navbar-inverse .navbar-nav>li>a {
     color: #efb200 !important;
 }
 
+/* When the cursor hover over, it shows white */
 .navbar-inverse .navbar-nav>li>a:hover {
     color: #fff !important;
 }
+
+@media (min-width:768px) {
+    .navbar-collapse .navbar-center {
+        width: auto;
+        border-top: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+/* Change the font of the home logo */
+.navbar-inverse .navbar-brand {
+    font-family: 'Hind Siliguri', sans-serif;
+    font-size: 23px;
+}
+
+
+
