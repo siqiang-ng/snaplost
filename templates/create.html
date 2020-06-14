@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> {% block title %} Create a New Listing {% endblock %} </h1>
+
+<form method='post'>
+    <div class="form-group">
+        <label for="item"> Item Name </label>
+        <input type="text" name="item"
+               placeholder="Name the item" class="form-control"
+               value="{{ request.form['item'] }}"> </input>
+    </div>
+
+    <div class="form-group">
+        <div class="form-group">
+            <label for="description">Item Description</label>
+            <textarea name="description" placeholder="Description"
+                                     class="form-control">{{ request.form['content'] }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="occurdate"> Date: </label>
+        <input type="date" id ="occurdate" name="occurdate">
+    </div>
+
+    <div class="form-group">
+        <label for="time"> Time: </label>
+        <input type="time" id="time" name="time">
+    </div>
+
+    <div class="form-group" action="/action_page.php">
+        <label for="photo">Upload image: </label>
+        <input type="file" id="photo" name="photo" accept="image/*">
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+{% endblock %}

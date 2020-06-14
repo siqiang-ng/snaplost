@@ -1,5 +1,6 @@
 import sqlite3
-from flask import Flask, render_template
+import os
+from flask import Flask, render_template, session, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 
 def get_db_connection():
@@ -17,6 +18,7 @@ def get_item(item_id):
     return item
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
 @app.route('/')
 def home():
@@ -29,3 +31,7 @@ def home():
 def item(item_id):
     item = get_item(item_id)
     return render_template('item.html', item=item)
+
+@app.route('/create', methods=('GET', 'POST'))
+def create():
+    return render_template('create.html')
