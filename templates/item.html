@@ -7,5 +7,9 @@
         <li> Date: {{ item['occurdate'] }} </li>
         <li> Time: {{ item['time'] }} </li>
     </ul>
+    <a href="{{ url_for('edit', id=item['id']) }}">
+        <span class="badge badge-warning">Edit</span>
+    </a>
+    <hr>
     
 {% endblock %}
