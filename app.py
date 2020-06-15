@@ -79,4 +79,13 @@ def edit(id):
             conn.commit()
             conn.close()
     return render_template('edit.html', item=item)
-    
+
+@app.route('/<int:id>/delete', methods=('POST',))
+def delete(id):
+    item = get_item(id)
+    conn = get_db_connection()
+    conn.execute('DELETE FROM items WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    flash('"{}" was successfully deleted!'.format(item['item']))
+    return redirect(url_for('home'))
