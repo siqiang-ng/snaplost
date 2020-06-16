@@ -43,42 +43,54 @@ def create():
 
         if not item:
             flash('Item name is required!')
+            return render_template('create.html')
         if not description:
             flash('Item description is required!')
+            return render_template('create.html')
         if not photo:
             flash('Photo of the item is required!')
+            return render_template('create.html')
         else:
             conn = get_db_connection()
             conn.execute('INSERT INTO items (item, description, occurdate, time, photo) VALUES (?, ?, ?, ?, ?)',
                     (item, description, occurdate, time, photo))
             conn.commit()
             conn.close()
-    return render_template('create.html')
+            flash('"{}" is successfully listed!'.format(item))
+            return redirect(url_for('home'))
+    else:
+        return render_template('create.html')
 
 @app.route('/<int:id>/edit', methods=('GET', 'POST'))
 def edit(id):
     item = get_item(id)
     
     if request.method == 'POST':
-        item = request.form['item']
+        name = request.form['item']
         description = request.form['description']
         occurdate = request.form['occurdate']
         time = request.form['time']
         photo = request.form['photo']
 
-        if not item:
+        if not name:
             flash('Item name is required!')
+            return render_template('edit.html', item=item)
         if not description:
             flash('Item description is required!')
+            return render_template('edit.html', item=item)
         if not photo:
             flash('Photo of the item is required!')
+            return render_template('edit.html', item=item)
         else:
             conn = get_db_connection()
             conn.execute('UPDATE items SET item = ?, description = ?, occurdate = ?, time = ?, photo =?' 
-                    'WHERE id = ?', (item, description, occurdate, time, photo, id))
+                    'WHERE id = ?', (name, description, occurdate, time, photo, id))
             conn.commit()
             conn.close()
-    return render_template('edit.html', item=item)
+            flash('"{}" is successfully edited!'.format(name))
+        return redirect(url_for('home'))
+    else:
+        return render_template('edit.html', item=item)
 
 @app.route('/<int:id>/delete', methods=('POST',))
 def delete(id):
