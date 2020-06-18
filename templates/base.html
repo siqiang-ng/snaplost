@@ -39,11 +39,31 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">New Listing</a></li> 
-                    <li><a href="#">Login</a></li>
-                    <li><a href="#">Register</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('item.create') }}">New Listing</a>
+                        {% endif %}
+                    </li> 
+                    <li>
+                        {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.login') }}">Login</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.signup') }}">Sign Up</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout') }}">Logout</a>
+                        {% endif %}
+                    </li>
                 </ul>
 
             </div>
