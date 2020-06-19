@@ -19,18 +19,18 @@
     </div>
 
     <div class="form-group">
-        <label for="occurdate"> Date: </label>
-        <input type="date" id ="occurdate" name="occurdate" value="{{ request.form['occurdate'] }}">
+        <label for="date"> Date: </label>
+        <input type="date" id ="time" name="occurdate" value="{{ request.form['occurdate'] }}">
     </div>
-
+   
     <div class="form-group">
         <label for="time"> Time: </label>
-        <input type="time" id="time" name="time" value="{{ request.form['time'] }}">
+        <input type="time" id ="time" name="time" value="{{ request.form['time'] }}">
     </div>
 
-    <div class="form-group" action="/action_page.php">
+    <div class="form-group" action="/create">
         <label for="photo">Upload image: </label>
-        <input type="file" id="photo" name="photo" accept="image/*" value="{{ request.form['photo'] }}">
+        <input type="file" id="photo" name="photo" accept="image/*" }}">
     </div>
 
     <div class="form-group">

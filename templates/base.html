@@ -22,7 +22,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button>
-                    <a class="navbar-brand" href="{{ url_for('home') }}">Snaplost.</a>
+                    <a class="navbar-brand" href="{{ url_for('main.home') }}">Snaplost.</a>
                 </div>
 
                 <ul class="nav navbar-nav navbar-center">
@@ -39,8 +39,31 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{url_for('create')}}"> New Listing </a></li> 
-                    <li><a href="#">Login / Register</a></li>
+                    <li>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('item.create') }}">New Listing</a>
+                        {% endif %}
+                    </li> 
+                    <li>
+                        {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.login') }}">Login</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.signup') }}">Sign Up</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout') }}">Logout</a>
+                        {% endif %}
+                    </li>
                 </ul>
 
             </div>
