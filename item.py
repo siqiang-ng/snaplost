@@ -59,43 +59,36 @@ def edit(item_id):
         occurdate = request.form['occurdate']
         takentime = request.form['time']
         #photo = request.form.get('photo')
-        try: 
-            if not name:
-                flash('Item name is required!')
-                return render_template('edit.html', item=item)
-            if not description:
-                flash('Item description is required!')
-                return render_template('edit.html', item=item)
-            #if not photo:
-                #flash('Photo of the item is required!')
-                #return render_template('create.html')
-            else:
-                conDate = datetime.strptime(occurdate, '%Y-%m-%d')
-                if takentime:
-                    conTime = datetime.strptime(takentime, "%H:%M").time()
-                
-                updated = Item.query.get(item_id)
-                if (name != updated.item):
-                    updated.item = name
-                if (description != updated.description):
-                    updated.description = description
-                if (conDate != updated.occurdate):
-                    updated.occurdate = conDate
-                if conTime and (conTime != updated.time):
-                    updated.time = conTime
 
-                db.session.commit()
-                flash('"{}" is successfully edited!'.format(name))
-                return redirect(url_for('main.home'))
-        except ValueError:
-            flash('The listing has not been edited!')
+        if not name:
+            flash('Item name is required!')
             return render_template('edit.html', item=item)
+        if not description:
+            flash('Item description is required!')
+            return render_template('edit.html', item=item)
+        #if not photo:
+            #flash('Photo of the item is required!')
+            #return render_template('create.html')
+        else:
+            conDate = datetime.strptime(occurdate, '%Y-%m-%d')
+            conTime = datetime.strptime(takentime, "%H:%M:%S").time()
+
+            updated = Item.query.get(item_id)
+            if (name != updated.item):
+                updated.item = name
+            if (description != updated.description):
+                updated.description = description
+            if (conDate != updated.occurdate):
+                updated.occurdate = conDate
+            if (conTime != updated.time):
+                updated.time = conTime
+
+            db.session.commit()
+            flash('"{}" is successfully edited!'.format(name))
+            return redirect(url_for('main.home'))
 
     else:
         return render_template('edit.html', item=item)
-
-
-    return render_template('edit.html', item=item)
 
 
 @item.route('/<int:listing_id>')
@@ -111,5 +104,5 @@ def delete(item_id):
     ditem = Item.query.get(item_id)
     db.session.delete(ditem)
     db.session.commit()
-    flash('"{}" was successfully deleted!'.format(item['item']))
+    flash('"{}" was successfully deleted!'.format(item.item))
     return redirect(url_for('main.home'))
