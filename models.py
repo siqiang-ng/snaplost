@@ -19,5 +19,5 @@ class Item(UserMixin, db.Model):
     description = db.Column(db.String(1000), nullable=False)
     occurdate = db.Column(db.Date)
     time = db.Column(db.Time)
-    photo = db.Column(db.LargeBinary)
+    # photo = db.Column(db.LargeBinary)
 

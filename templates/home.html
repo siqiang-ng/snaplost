@@ -6,7 +6,7 @@
     <div class = container">
         <div class="row">
         {% for item in items %}
-            <a href = "{{ url_for('item', item_id=item['id']) }}">
+            <a href = "{{ url_for('item.listing', listing_id=item['id']) }}">
                 <div class="col-sm-4">
                     <div class="panel panel-primary">
                         <div class="panel-heading">{{ item['item'] }}</div>
