@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from .models import User
 from . import db
 
@@ -54,3 +54,48 @@ def login_post():
     login_user(user, remember=remember)
     return redirect(url_for('main.dashboard'))
 
+@auth.route('/settings', methods =['GET', 'POST'])
+@login_required
+def settings():
+    if request.method == 'POST':
+        newname = request.form.get('name') 
+        oldpw = request.form.get('oldpw')
+        newpw = request.form.get('newpw')
+
+        updated = User.query.get(current_user.id)
+        if (newname != updated.name):
+            updated.name = newname
+        
+        if oldpw:
+            if newpw:
+                if check_password_hash(updated.password, oldpw):
+                    updated.password = generate_password_hash(newpw, method='sha256')
+                else:
+                    flash('Wrong password!')
+                    return render_template('settings.html', name=current_user.name)
+            else:
+                flash('Fill in your new password!')
+                return render_template('settings.html', name=current_user.name)
+
+        if newpw:
+            if not oldpw:
+                flash('Fill in your old password!')
+                return render_template('settings.html', name=current_user.name)
+
+        db.session.commit()
+        flash('Changes have been saved successfully!')
+        return redirect(url_for('main.home'))
+    
+    else:
+        return render_template('settings.html', name=current_user.name)
+
+@auth.route('/deleteAcc', methods=['POST'])
+@login_required
+def deleteAcc():
+    user = User.query.filter_by(id=current_user.id).first()
+    
+    duser = User.query.get(current_user.id)
+    db.session.delete(duser)
+    db.session.commit()
+    flash('"{}" was successfully deleted!'.format(user.name))
+    return redirect(url_for('main.home'))

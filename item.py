@@ -24,22 +24,19 @@ def create():
         if not description:
             flash('Item description is required!')
             return render_template('create.html')
+        if not occurdate:
+            flash('Date is required!')
+            return render_template('create.html')
+        if not takentime:
+            flash('Time is required!')
+            return render_template('time.html')
      #   if not photo:
       #      flash('Photo of the item is required!')
        #     return render_template('create.html')
         else:
-            if occurdate:
-                if not takentime:
-                    conDate = datetime.strptime(occurdate, '%Y-%m-%d')
-                    new_item = Item(item=item, description=description, occurdate=conDate)
-                else:
-                    conDate = datetime.strptime(occurdate, '%Y-%m-%d')
-                    conTime = datetime.strptime(takentime, "%H:%M").time()
-                    new_item = Item(item=item, description=description, occurdate=conDate, time=conTime)
-            else:
-                if takentime:
-                    conTime = datetime.strptime(takentime, "%H:%M").time()
-                    new_item = Item(item=item, description=description, time=conTime)
+            conDate = datetime.strptime(occurdate, '%Y-%m-%d')
+            conTime = datetime.strptime(takentime, "%H:%M").time()
+            new_item = Item(item=item, description=description, occurdate=conDate, time=conTime)
 
             db.session.add(new_item)
             db.session.commit()
@@ -66,7 +63,12 @@ def edit(item_id):
         if not description:
             flash('Item description is required!')
             return render_template('edit.html', item=item)
-        #if not photo:
+        if not occurdate:
+            flash('Date is required!')
+            return render_template('create.html')
+        if not takentime:
+            flash('Time is required!')
+            return render_template('time.html')#if not photo:
             #flash('Photo of the item is required!')
             #return render_template('create.html')
         else:
