@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<div class='page-header'>
 <h1> {% block title %} Edit {{ item['item'] }} {% endblock %} </h1>
+</div>
+
 <br>
 <form method='post'>
     <div class="form-group">
