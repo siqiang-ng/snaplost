@@ -7,8 +7,9 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():
-    items = Item.query.all()
-    return render_template('home.html', items=items)
+    losts = Item.query.filter_by(category="lost")
+    founds = Item.query.filter_by(category="found")
+    return render_template('home.html', losts=losts, founds=founds)
 
 @main.route('/dashboard')
 @login_required

@@ -12,12 +12,15 @@ item = Blueprint('item', __name__)
 @login_required
 def create():
     if request.method == 'POST':
+        category = request.form.get('category')
         item = request.form['item']
         description = request.form['description']
         occurdate = request.form['occurdate']
         takentime = request.form['time']
-#        photo = request.form.get('photo')
-        
+
+        if not category:
+            flash('Category of the listing is required!')
+            return render_template('create.html')
         if not item:
             flash('Item name is required!')
             return render_template('create.html')
@@ -30,13 +33,11 @@ def create():
         if not takentime:
             flash('Time is required!')
             return render_template('time.html')
-     #   if not photo:
-      #      flash('Photo of the item is required!')
-       #     return render_template('create.html')
+
         else:
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M").time()
-            new_item = Item(item=item, description=description, occurdate=conDate, time=conTime)
+            new_item = Item(category=category, item=item, description=description, occurdate=conDate, time=conTime)
 
             db.session.add(new_item)
             db.session.commit()
@@ -51,12 +52,15 @@ def edit(item_id):
     item = Item.query.filter_by(id=item_id).first()
 
     if request.method == 'POST':
+        category = request.form.get('category')
         name = request.form['item']
         description = request.form['description']
         occurdate = request.form['occurdate']
         takentime = request.form['time']
-        #photo = request.form.get('photo')
 
+        if not category:
+            flash('Category of the listing is required!')
+            return render_template('edit.html', item=item)
         if not name:
             flash('Item name is required!')
             return render_template('edit.html', item=item)
@@ -68,14 +72,14 @@ def edit(item_id):
             return render_template('create.html')
         if not takentime:
             flash('Time is required!')
-            return render_template('time.html')#if not photo:
-            #flash('Photo of the item is required!')
-            #return render_template('create.html')
+            return render_template('time.html')
         else:
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M:%S").time()
 
             updated = Item.query.get(item_id)
+            if (category != updated.category):
+                updated.category = category
             if (name != updated.item):
                 updated.item = name
             if (description != updated.description):

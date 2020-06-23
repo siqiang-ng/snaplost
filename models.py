@@ -15,9 +15,10 @@ class Item(UserMixin, db.Model):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(100), nullable=False)
     item = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(1000), nullable=False)
     occurdate = db.Column(db.Date)
     time = db.Column(db.Time)
-    # photo = db.Column(db.LargeBinary)
+
 

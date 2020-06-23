@@ -3,19 +3,47 @@
 {% block title %} Snaplost HomePage {% endblock %} 
 
 {% block content %}
-    <div class = container">
-        <div class="row">
-        {% for item in items %}
-            <a href = "{{ url_for('item.listing', listing_id=item['id']) }}">
-                <div class="col-sm-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">{{ item['item'] }}</div>
-                        <div class="panel-body"><img src={{ item['photo'] }} class="img-responsive" style="width:100%" alt="Image"></div>
-                    </div>
-                </div>  
-            </a>
-        {% endfor %}
+<div class = container">
+    <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a data-toggle='tab' href="#lost"> <b> Lost </b></a></li>
+        <li><a data-toggle="tab" href="#found"><b> Found </b></a></li>
+    </ul>
+
+    <br> 
+
+    <div class='tab-content'>
+        <div id="lost" class="tab-pane fade in active">       
+            <div class="row">
+                {% for lost in losts %}
+                <a href = "{{ url_for('item.listing', listing_id=lost['id']) }}">
+                    <div class="col-sm-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">{{ lost['item'] }}</div>
+                            <div class="panel-body"><img src=""  class="img-responsive" style="width:100%" alt="Image"></div>
+                        </div>
+                    </div>  
+                </a>
+                {% endfor %}
+            </div>
         </div>
-   </div><br>
+
+        <div id="found" class="tab-pane fade">       
+            <div class="row">
+                {% for found in founds %}
+                <a href = "{{ url_for('item.listing', listing_id=found['id']) }}">
+                    <div class="col-sm-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">{{ found['item'] }}</div>
+                            <div class="panel-body"><img src=""class="img-responsive" style="width:100%" alt="Image"></div>
+                        </div>
+                    </div>  
+                </a>
+                {% endfor %}
+            </div>
+        </div>           
+    </div>
+</div>
+
+<br>
 
 {% endblock %}

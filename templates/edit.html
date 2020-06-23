@@ -9,6 +9,16 @@
 <br>
 <form method='post'>
     <div class="form-group">
+        <label for="category"> Category </label>
+        <select class="form-control" id="category" name="category">
+            <option value="" selected disabled hidden>--Select Category--</option>
+            <option value="lost">Lost</option>
+            <option value="found">Found</option>
+        </select>
+    </div>
+
+
+    <div class="form-group">
         <label for="item"> Item Name </label>
         <input type="text" name="item"
                placeholder="Name the item" class="form-control"
