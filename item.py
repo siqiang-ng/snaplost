@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, flash, request, url_for
 from flask_login import login_required, current_user
-from .models import Item
+from .models import Item, User
 from . import db
 import os
 from datetime import datetime
@@ -11,6 +11,8 @@ item = Blueprint('item', __name__)
 @item.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
+    user = User.query.get(current_user.id)
+
     if request.method == 'POST':
         category = request.form.get('category')
         item = request.form['item']
@@ -19,29 +21,30 @@ def create():
         takentime = request.form['time']
 
         if not category:
-            flash('Category of the listing is required!')
+            flash('Category of the listing is required!', 'warning')
             return render_template('create.html')
         if not item:
-            flash('Item name is required!')
+            flash('Item name is required!', 'warning')
             return render_template('create.html')
         if not description:
-            flash('Item description is required!')
+            flash('Item description is required!', 'warning')
             return render_template('create.html')
         if not occurdate:
-            flash('Date is required!')
+            flash('Date is required!', 'warning')
             return render_template('create.html')
         if not takentime:
-            flash('Time is required!')
-            return render_template('time.html')
+            flash('Time is required!', 'warning')
+            return render_template('create.html')
 
         else:
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M").time()
-            new_item = Item(category=category, item=item, description=description, occurdate=conDate, time=conTime)
+            new_item = Item(category=category, item=item, description=description, 
+                occurdate=conDate, time=conTime, lister=user)
 
             db.session.add(new_item)
             db.session.commit()
-            flash('"{}" is successfully listed!'.format(item))
+            flash('"{}" is successfully listed!'.format(item), 'info')
             return redirect(url_for('main.home'))
 
     return render_template('create.html')
@@ -50,6 +53,7 @@ def create():
 @login_required
 def edit(item_id):
     item = Item.query.filter_by(id=item_id).first()
+    user = User.query.get(current_user.id)
 
     if request.method == 'POST':
         category = request.form.get('category')
@@ -59,20 +63,20 @@ def edit(item_id):
         takentime = request.form['time']
 
         if not category:
-            flash('Category of the listing is required!')
+            flash('Category of the listing is required!', 'warning')
             return render_template('edit.html', item=item)
         if not name:
-            flash('Item name is required!')
+            flash('Item name is required!', 'warning')
             return render_template('edit.html', item=item)
         if not description:
-            flash('Item description is required!')
+            flash('Item description is required!', 'warning')
             return render_template('edit.html', item=item)
         if not occurdate:
-            flash('Date is required!')
-            return render_template('create.html')
+            flash('Date is required!', 'warning')
+            return render_template('edit.html', item=item)
         if not takentime:
-            flash('Time is required!')
-            return render_template('time.html')
+            flash('Time is required!'), 'warning'
+            return render_template('edit.html', item=item)
         else:
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M:%S").time()
@@ -90,7 +94,7 @@ def edit(item_id):
                 updated.time = conTime
 
             db.session.commit()
-            flash('"{}" is successfully edited!'.format(name))
+            flash('"{}" is successfully edited!'.format(name), 'info')
             return redirect(url_for('main.home'))
 
     else:
@@ -110,5 +114,5 @@ def delete(item_id):
     ditem = Item.query.get(item_id)
     db.session.delete(ditem)
     db.session.commit()
-    flash('"{}" was successfully deleted!'.format(item.item))
+    flash('"{}" was successfully deleted!'.format(item.item), 'info')
     return redirect(url_for('main.home'))

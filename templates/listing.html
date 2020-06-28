@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2> {% block title %} {{ listing['item'] }} {% endblock %} </h2>
+    <h2> {% block title %} {{ listing.item }} {% endblock %} </h2>
     <ul>
-        <li> Description: {{ listing['description'] }} </li>
-        <li> Date: {{ listing['occurdate'] }} </li>
-        <li> Time: {{ listing['time'] }} </li>
+        <li> Description: {{ listing.description}} </li>
+        <li> Date: {{ listing.occurdate }} </li>
+        <li> Time: {{ listing.time }} </li>
+        <li> Listed by: {{ listing.lister.name }}
     </ul>
     {% if current_user.is_authenticated %}
-    <a href="{{ url_for('item.edit', item_id=listing['id']) }}">
+    <a href="{{ url_for('item.edit', item_id=listing.id) }}">
         <span class="badge badge-warning">Edit</span>
     </a>
     {% endif %}
