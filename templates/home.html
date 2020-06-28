@@ -16,10 +16,10 @@
         <div id="lost" class="tab-pane fade in active">       
             <div class="row">
                 {% for lost in losts %}
-                <a href = "{{ url_for('item.listing', listing_id=lost['id']) }}">
+                <a href = "{{ url_for('item.listing', listing_id=lost.id) }}">
                     <div class="col-sm-4">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">{{ lost['item'] }}</div>
+                            <div class="panel-heading">{{ lost.item }}</div>
                             <div class="panel-body"><img src=""  class="img-responsive" style="width:100%" alt="Image"></div>
                         </div>
                     </div>  
@@ -31,10 +31,10 @@
         <div id="found" class="tab-pane fade">       
             <div class="row">
                 {% for found in founds %}
-                <a href = "{{ url_for('item.listing', listing_id=found['id']) }}">
+                <a href = "{{ url_for('item.listing', listing_id=found.id) }}">
                     <div class="col-sm-4">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">{{ found['item'] }}</div>
+                            <div class="panel-heading">{{ found.item }}</div>
                             <div class="panel-body"><img src=""class="img-responsive" style="width:100%" alt="Image"></div>
                         </div>
                     </div>  

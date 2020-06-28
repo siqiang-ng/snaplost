@@ -51,7 +51,7 @@ def login_post():
     user = User.query.filter_by(email=email).first()
 
     if not user or not check_password_hash(user.password, password):
-        flash('Please check your login details and try again.', 'danger')
+        flash('Invalid email or password.', 'danger')
         return redirect(url_for('auth.login'))
     
     login_user(user, remember=remember)
@@ -74,7 +74,7 @@ def settings():
                 if check_password_hash(updated.password, oldpw):
                     updated.password = generate_password_hash(newpw, method='sha256')
                 else:
-                    flash('Wrong password!', 'danger')
+                    flash('Invalid password!', 'danger')
                     return render_template('settings.html', name=current_user.name)
             else:
                 flash('Fill in your new password!', 'danger')

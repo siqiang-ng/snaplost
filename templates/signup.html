@@ -5,6 +5,7 @@
     <h1> {% block title %} Sign Up {% endblock %} </h1>
 </div>
 
+<div>
 <form method='post' action="/signup">
     <div class="form-group">
         <label for="login"> Email </label>
@@ -28,4 +29,11 @@
         <button type="login" class="btn btn-primary">Sign Up</button>
     </div>
 </form>
+</div>
+
+<hr>
+
+<div>
+<p>Already Have An Account? <a href="{{ url_for('auth.login') }}">Sign In Here!</a></p>
+</div>
 {% endblock %}

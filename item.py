@@ -104,8 +104,7 @@ def edit(item_id):
 @item.route('/<int:listing_id>')
 def listing(listing_id):
     listing = Item.query.filter_by(id=listing_id).first()
-    listedby = listing.lister.name
-    return render_template('listing.html', listing=listing, lister=listedby)
+    return render_template('listing.html', listing=listing)
 
 @item.route('/<int:item_id>/delete', methods=('POST',))
 @login_required
