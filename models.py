@@ -9,6 +9,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
+    listing = db.relationship('Item', backref='lister', cascade='all, delete-orphan', lazy='dynamic')
 
 class Item(UserMixin, db.Model):
     __tablename__ = "item"
@@ -20,5 +21,5 @@ class Item(UserMixin, db.Model):
     description = db.Column(db.String(1000), nullable=False)
     occurdate = db.Column(db.Date)
     time = db.Column(db.Time)
-
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

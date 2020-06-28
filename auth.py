@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
-from .models import User
+from .models import User, Item
 from . import db
 
 auth = Blueprint('auth', __name__)
@@ -38,6 +38,7 @@ def signup_post():
     db.session.add(new_user)
     db.session.commit()
 
+    flash('Account has been created successfully! Please login.')
     return redirect(url_for('auth.login'))
 
 @auth.route('/login', methods=['POST'])
@@ -93,11 +94,10 @@ def settings():
 
 @auth.route('/deleteAcc', methods=['POST'])
 @login_required
-def deleteAcc():
-    user = User.query.filter_by(id=current_user.id).first()
-    
+def deleteAcc():    
     duser = User.query.get(current_user.id)
+
     db.session.delete(duser)
     db.session.commit()
-    flash('"{}" was successfully deleted!'.format(user.name))
+    flash('"{}" was successfully deleted!'.format(current_user.name), 'success')
     return redirect(url_for('main.home'))

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, flash, request, url_for
 from flask_login import login_required, current_user
-from .models import Item
+from .models import Item, User
 from . import db
 import os
 from datetime import datetime
@@ -11,6 +11,8 @@ item = Blueprint('item', __name__)
 @item.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
+    user = User.query.get(current_user.id)
+
     if request.method == 'POST':
         category = request.form.get('category')
         item = request.form['item']
@@ -37,7 +39,8 @@ def create():
         else:
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M").time()
-            new_item = Item(category=category, item=item, description=description, occurdate=conDate, time=conTime)
+            new_item = Item(category=category, item=item, description=description, 
+                occurdate=conDate, time=conTime, lister=user)
 
             db.session.add(new_item)
             db.session.commit()
@@ -50,6 +53,7 @@ def create():
 @login_required
 def edit(item_id):
     item = Item.query.filter_by(id=item_id).first()
+    user = User.query.get(current_user.id)
 
     if request.method == 'POST':
         category = request.form.get('category')
@@ -100,7 +104,8 @@ def edit(item_id):
 @item.route('/<int:listing_id>')
 def listing(listing_id):
     listing = Item.query.filter_by(id=listing_id).first()
-    return render_template('listing.html', listing=listing)
+    listedby = listing.lister.name
+    return render_template('listing.html', listing=listing, lister=listedby)
 
 @item.route('/<int:item_id>/delete', methods=('POST',))
 @login_required

@@ -6,6 +6,7 @@
         <li> Description: {{ listing['description'] }} </li>
         <li> Date: {{ listing['occurdate'] }} </li>
         <li> Time: {{ listing['time'] }} </li>
+        <li> Listed by: {{ lister }}
     </ul>
     {% if current_user.is_authenticated %}
     <a href="{{ url_for('item.edit', item_id=listing['id']) }}">
