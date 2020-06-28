@@ -30,7 +30,7 @@ def signup_post():
     user = User.query.filter_by(email=email).first()
 
     if user:
-        flash('Email address already exists')
+        flash('Email address already exists.', 'danger')
         return redirect(url_for('auth.signup'))
 
     new_user = User(email = email, name=name, password=generate_password_hash(password, method='sha256'))
@@ -38,7 +38,7 @@ def signup_post():
     db.session.add(new_user)
     db.session.commit()
 
-    flash('Account has been created successfully! Please login.')
+    flash('Account has been created successfully! Please login.', 'success')
     return redirect(url_for('auth.login'))
 
 @auth.route('/login', methods=['POST'])
@@ -51,7 +51,7 @@ def login_post():
     user = User.query.filter_by(email=email).first()
 
     if not user or not check_password_hash(user.password, password):
-        flash('Please check your login details and try again.')
+        flash('Please check your login details and try again.', 'danger')
         return redirect(url_for('auth.login'))
     
     login_user(user, remember=remember)
@@ -74,19 +74,19 @@ def settings():
                 if check_password_hash(updated.password, oldpw):
                     updated.password = generate_password_hash(newpw, method='sha256')
                 else:
-                    flash('Wrong password!')
+                    flash('Wrong password!', 'danger')
                     return render_template('settings.html', name=current_user.name)
             else:
-                flash('Fill in your new password!')
+                flash('Fill in your new password!', 'danger')
                 return render_template('settings.html', name=current_user.name)
 
         if newpw:
             if not oldpw:
-                flash('Fill in your old password!')
+                flash('Fill in your old password!', 'danger')
                 return render_template('settings.html', name=current_user.name)
 
         db.session.commit()
-        flash('Changes have been saved successfully!')
+        flash('Changes have been saved successfully!', 'success')
         return redirect(url_for('main.home'))
     
     else:

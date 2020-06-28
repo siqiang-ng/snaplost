@@ -21,20 +21,20 @@ def create():
         takentime = request.form['time']
 
         if not category:
-            flash('Category of the listing is required!')
+            flash('Category of the listing is required!', 'warning')
             return render_template('create.html')
         if not item:
-            flash('Item name is required!')
+            flash('Item name is required!', 'warning')
             return render_template('create.html')
         if not description:
-            flash('Item description is required!')
+            flash('Item description is required!', 'warning')
             return render_template('create.html')
         if not occurdate:
-            flash('Date is required!')
+            flash('Date is required!', 'warning')
             return render_template('create.html')
         if not takentime:
-            flash('Time is required!')
-            return render_template('time.html')
+            flash('Time is required!', 'warning')
+            return render_template('create.html')
 
         else:
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
@@ -44,7 +44,7 @@ def create():
 
             db.session.add(new_item)
             db.session.commit()
-            flash('"{}" is successfully listed!'.format(item))
+            flash('"{}" is successfully listed!'.format(item), 'info')
             return redirect(url_for('main.home'))
 
     return render_template('create.html')
@@ -63,20 +63,20 @@ def edit(item_id):
         takentime = request.form['time']
 
         if not category:
-            flash('Category of the listing is required!')
+            flash('Category of the listing is required!', 'warning')
             return render_template('edit.html', item=item)
         if not name:
-            flash('Item name is required!')
+            flash('Item name is required!', 'warning')
             return render_template('edit.html', item=item)
         if not description:
-            flash('Item description is required!')
+            flash('Item description is required!', 'warning')
             return render_template('edit.html', item=item)
         if not occurdate:
-            flash('Date is required!')
-            return render_template('create.html')
+            flash('Date is required!', 'warning')
+            return render_template('edit.html', item=item)
         if not takentime:
-            flash('Time is required!')
-            return render_template('time.html')
+            flash('Time is required!'), 'warning'
+            return render_template('edit.html', item=item)
         else:
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M:%S").time()
@@ -94,7 +94,7 @@ def edit(item_id):
                 updated.time = conTime
 
             db.session.commit()
-            flash('"{}" is successfully edited!'.format(name))
+            flash('"{}" is successfully edited!'.format(name), 'info')
             return redirect(url_for('main.home'))
 
     else:
@@ -115,5 +115,5 @@ def delete(item_id):
     ditem = Item.query.get(item_id)
     db.session.delete(ditem)
     db.session.commit()
-    flash('"{}" was successfully deleted!'.format(item.item))
+    flash('"{}" was successfully deleted!'.format(item.item), 'info')
     return redirect(url_for('main.home'))
