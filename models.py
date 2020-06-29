@@ -21,5 +21,6 @@ class Item(UserMixin, db.Model):
     description = db.Column(db.String(1000), nullable=False)
     occurdate = db.Column(db.Date)
     time = db.Column(db.Time)
+    number = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

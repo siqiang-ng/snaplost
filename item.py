@@ -19,6 +19,7 @@ def create():
         description = request.form['description']
         occurdate = request.form['occurdate']
         takentime = request.form['time']
+        number = request.form['number']
 
         if not category:
             flash('Category of the listing is required!', 'warning')
@@ -61,6 +62,7 @@ def edit(item_id):
         description = request.form['description']
         occurdate = request.form['occurdate']
         takentime = request.form['time']
+        number = request.form['number']
 
         if not category:
             flash('Category of the listing is required!', 'warning')
@@ -92,6 +94,8 @@ def edit(item_id):
                 updated.occurdate = conDate
             if (conTime != updated.time):
                 updated.time = conTime
+            if (number != updated.number):
+                updated.number = number
 
             db.session.commit()
             flash('"{}" is successfully edited!'.format(name), 'info')

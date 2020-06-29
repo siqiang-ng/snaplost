@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 import os
 
 db = SQLAlchemy()
@@ -14,13 +15,14 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.login_message_category = 'danger'
     login_manager.init_app(app)
     
-    from .models import User
+    from .models import User, Item
     
     @login_manager.user_loader # A user loader tells Flask-Login how to find a specifc user from the ID
     def load_user(user_id):
