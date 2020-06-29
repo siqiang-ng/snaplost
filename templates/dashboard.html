@@ -1,12 +1,53 @@
 {% extends "base.html" %}
 
+{% block title %} DashBoard {% endblock %}
+
 {% block content %}
 
 <div class="container">
-    <div class="jumbotron">
-        <h1>Welcome, {{ name }}</h1>      
-        <p>Lost or Found anything? Check if someone else has already listed your item first. If not, create a new listing at the top right hand of the navigation bar.</p>
-    </div>
+	<div class="jumbotron">
+		<h1>Welcome, {{ name }}</h1>     
+		<br> 
+		<p>Lost or Found anything? Check if someone else has already listed your item first. If not, create a new listing at the top right hand of the navigation bar.</p>
+	</div>
+
+	<hr> 
+
+	<div class="row">
+		<div class="col-sm-2">
+			<h4><b> Your Listings: </b></h4>
+		</div>
+		<div class="col-sm-10">
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#lost"><b>Lost</b></a></li>
+				<li><a data-toggle="tab" href="#found"><b>Found</b></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<br>
+	<div class="tab-content">
+		<div id="lost" class="tab-pane fade in active">
+			<div class="list-group">
+				{% for listing in listings %}
+					{% if listing.category == "lost" %}
+						<a href="{{ url_for('item.listing', listing_id=listing.id) }}" 
+							class="list-group-item">{{ listing.item }}</a>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+		<div id="found" class="tab-pane fade">
+			<div class="list-group">
+				{% for listing in listings %}
+					{% if listing.category == "found" %}
+						<a href="{{ url_for('item.listing', listing_id=listing.id) }}" 
+							class="list-group-item">{{ listing.item }}</a>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 </div>
 
 
