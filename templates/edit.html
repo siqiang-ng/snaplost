@@ -10,7 +10,7 @@
 <br>
 <form method='post'>
     <div class="form-group">
-        <label for="category"> Category </label>
+        <label for="category"> Category* </label>
         <select class="form-control" id="category" name="category">
             <option value="" selected disabled hidden>--Select Category--</option>
             <option value="lost">Lost</option>
@@ -20,7 +20,7 @@
 
 
     <div class="form-group">
-        <label for="item"> Item Name </label>
+        <label for="item"> Item Name* </label>
         <input type="text" name="item"
                placeholder="Name the item" class="form-control"
                value="{{ request.form['item'] or item['item'] }}"> </input>
@@ -28,24 +28,36 @@
 
     <div class="form-group">
         <div class="form-group">
-            <label for="description">Item Description</label>
+            <label for="description">Item Description*</label>
             <textarea name="description" placeholder="Description"
                                      class="form-control">{{ request.form['content'] or item['description'] }}</textarea>
     </div>
 
     <div class="form-group">
-        <label for="occurdate"> Date: </label>
+        <label for="occurdate"> Date:* </label>
         <input type="date" id ="occurdate" name="occurdate" value="{{ request.form['occurdate'] or item['occurdate'] }}">
     </div>
 
     <div class="form-group">
-        <label for="time"> Time: </label>
+        <label for="time"> Time:* </label>
         <input type="time" id="time" name="time" value="{{ request.form['time'] or item['time'] }}">
+        <span class="help-block">You can provide a rough estimation of the time when the item is found or lost.</span>
     </div>
+
+    <div class="form-group">
+        <label for="number"> Number: </label>
+        <input type="text" id ="number" name="number" value="{{ request.form['number'] }}">
+        <span class="help-block">If you wish to be contacted by your phone number, please include it here.</span>
+    </div>
+
 
     <div class="form-group" action="/action_page.php">
         <label for="photo">Upload image: </label>
         <input type="file" id="photo" name="photo" accept="image/*" value="{{ request.form['photo'] or item['photo'] }}">
+    </div>
+
+    <div class="form-group">
+        <h6 style="color:red"> *Indicates required field </h6>
     </div>
 
     <div class="form-group">
