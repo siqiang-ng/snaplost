@@ -14,8 +14,9 @@ def create_app():
     app.config['SECRET_KEY'] = os.urandom(24)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
+
     db.init_app(app)
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db, render_as_batch=True)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
