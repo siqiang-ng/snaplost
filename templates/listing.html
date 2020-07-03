@@ -39,18 +39,19 @@
         <div class='col-sm-4'>
         </div>
         <div class='col-sm-8'>
-            <h4> <b> How to contact me? </b> </h4>
-            <br>
-            <div class='well'>
-                <li> <b> Name: </b> {{ listing.lister.name }} </li>
-                <li> <b> Email: </b> {{ listing.lister.email }} </li>
-                <li> <b> Contact Number: </b> 
-                    {% if listing.number %}
-                        {{ listing.number }} 
-                    {% else %}
-                        N/A
-                    {% endif %}
-                </li>
+            <div class="panel panel-danger">
+                <div class="panel-heading"><h4><b> How to contact me? </b></h4></div>
+                <div class="panel-body">
+                    <li> <b> Name: </b> {{ listing.lister.name }} </li>
+                    <li> <b> Email: </b> {{ listing.lister.email }} </li>
+                    <li> <b> Contact Number: </b> 
+                        {% if listing.number %}
+                            {{ listing.number }} 
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </li>
+                </div>
             </div>
         </div>
     </div>
@@ -61,9 +62,6 @@
         <div class='col-sm-1'>
             {% if current_user.is_authenticated %}
             {% if current_user == listing.lister %}
-            <!-- <a href="{{ url_for('item.edit', item_id=listing.id) }}">
-                <h2><span class="badge badge-info">Edit</span> </h2>
-            </a> -->
             <a href="{{ url_for('item.edit', item_id=listing.id) }}" class="btn btn-success" role="button">Edit</a>
             {% endif %}
             {% endif %}
