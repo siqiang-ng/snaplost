@@ -11,6 +11,7 @@ def home():
 	founds = Item.query.filter_by(category="found")
 	return render_template('home.html', losts=losts, founds=founds)
 
+
 @main.route('/dashboard')
 @login_required
 def dashboard():

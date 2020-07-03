@@ -1,22 +1,73 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2> {% block title %} {{ listing.item }} {% endblock %} </h2>
-    <ul>
-        <li> Description: {{ listing.description}} </li>
-        <li> Date: {{ listing.occurdate }} </li>
-        <li> Time: {{ listing.time }} </li>
-        <li> Listed by: {{ listing.lister.name }}
-        <li> Contact email: {{ listing.lister.email }}
-        <li> Contact number: {{ listing.number }}
-    </ul>
-    {% if current_user.is_authenticated %}
-        {% if current_user == listing.lister %}
-        <a href="{{ url_for('item.edit', item_id=listing.id) }}">
-            <span class="badge badge-warning">Edit</span>
-        </a>
-        {% endif %}
-    {% endif %}
-    <hr>
+<div class='page-header'>
+    <h1> {% block title %} {{ listing.item }} {% endblock %} </h1>
+</div>
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-4'>
+            <h4><b> Uploaded Image: </b></h4>
+            <br>
+            <img src="#">
+        </div> 
+
+        <div class='col-sm-8'>
+            <h4> <b> Item Details: </b> </h4>
+            <br>
+            <div class="list-group">
+                <div class="list-group-item">
+                    <h5 class="list-group-item-heading"> <b> Description: </b> </h5>
+                    <p class="list-group-item-text">{{ listing.description }}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5 class="list-group-item-heading"><b> Date: </b> </h5>
+                    <p class="list-group-item-text"> {{ listing.occurdate }}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5 class="list-group-item-heading"><b> Time: </b> </h5>
+                    <p class="list-group-item-text">{{ listing.time }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br> 
+
+    <div class='row'>
+        <div class='col-sm-4'>
+        </div>
+        <div class='col-sm-8'>
+            <div class="panel panel-danger">
+                <div class="panel-heading"><h4><b> How to contact me? </b></h4></div>
+                <div class="panel-body">
+                    <li> <b> Name: </b> {{ listing.lister.name }} </li>
+                    <li> <b> Email: </b> {{ listing.lister.email }} </li>
+                    <li> <b> Contact Number: </b> 
+                        {% if listing.number %}
+                            {{ listing.number }} 
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-sm-11'>
+        </div>
+        <div class='col-sm-1'>
+            {% if current_user.is_authenticated %}
+            {% if current_user == listing.lister %}
+            <a href="{{ url_for('item.edit', item_id=listing.id) }}" class="btn btn-success" role="button">Edit</a>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div> 
+</div>
+<hr>
     
 {% endblock %}
