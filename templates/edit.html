@@ -46,7 +46,7 @@
 
     <div class="form-group">
         <label for="number"> Number: </label>
-        <input type="text" id ="number" name="number" value="{{ request.form['number'] }}">
+        <input type="text" id ="number" name="number" value="{{ request.form['number'] or item['number'] }}">
         <span class="help-block">If you wish to be contacted by your phone number, please include it here.</span>
     </div>
 
