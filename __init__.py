@@ -1,20 +1,19 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_mail import Mail
+from .config import Config
 import os
 
 db = SQLAlchemy()
+mail = Mail()
 
 from flask_login import LoginManager
 
 def create_app():
     app = Flask(__name__)
-
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = os.urandom(24)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-    app.config['WHOOSH_BASE'] = ''
-
+    app.config.from_object(Config)
+    mail = Mail(app)
 
     db.init_app(app)
     migrate = Migrate(app, db, render_as_batch=True)
