@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, login_required, current_user
-from .forms import SignupForm
+from .forms import SignupForm, ResetPasswordRequestForm, ResetPasswordForm
+from .emails import send_password_reset_email
 from .models import User, Item
 from . import db
 
@@ -69,7 +70,7 @@ def settings():
 		if oldpw:
 			if newpw:
 				if check_password_hash(updated.password, oldpw):
-					updated.password = generate_password_hash(newpw, method='sha256')
+					updated.password = generate_password_hash(newpw)
 				else:
 					flash('Invalid password!', 'danger')
 					return render_template('settings.html', name=current_user.name)
@@ -98,3 +99,36 @@ def deleteAcc():
 	db.session.commit()
 	flash('"{}" was successfully deleted!'.format(current_user.name), 'success')
 	return redirect(url_for('main.home'))
+
+@auth.route('/reset_password_request', methods=['GET','POST'])
+def reset_password_request():
+	if current_user.is_authenticated:
+		return redirect(url_for('main.home'))
+
+	form = ResetPasswordRequestForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(email=form.email.data).first()
+		if user:
+			send_password_reset_email(user)
+		flash('Check your email for the instructions to reset your password', 'warning')
+		return redirect(url_for('auth.login'))
+	return render_template('reset_password_request.html', form=form)
+
+@auth.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+	if current_user.is_authenticated:
+		return redirect(url_for('main.home'))
+
+	user = User.verify_reset_password_token(token)
+	if not user:
+		return redirect(url_for('main.home'))
+
+	form = ResetPasswordForm()
+	if form.validate_on_submit():
+		newpw = form.password.data
+		user.password = generate_password_hash(newpw)
+		db.session.commit()
+		flash('Your password has been reset.', 'success')
+		return redirect(url_for('auth.login'))
+
+	return render_template('reset_password.html', form=form)

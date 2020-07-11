@@ -20,3 +20,19 @@ class SignupForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField('Email', 
+                        validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+    
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('The email is not registered in Snaplost. Please try again.')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=4, max=100)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
