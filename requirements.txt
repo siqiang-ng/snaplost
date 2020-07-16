@@ -9,7 +9,6 @@ colorama==0.4.3
 configobj==5.0.6
 constantly==15.1.0
 cryptography==2.8
-dbus-python==1.2.16
 distro==1.4.0
 dnspython==1.16.0
 email-validator==1.1.1
@@ -43,7 +42,6 @@ oauthlib==3.1.0
 psycopg2-binary==2.8.5
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
-PyGObject==3.36.0
 PyHamcrest==1.9.0
 pyinotify==0.9.6
 PyJWT==1.7.1
