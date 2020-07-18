@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, login_required, current_user
 from .forms import SignupForm, ResetPasswordRequestForm, ResetPasswordForm
 from .emails import send_password_reset_email
@@ -11,7 +10,6 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login')
 def login():
-
 	return render_template('login.html')
 
 @auth.route('/signup', methods=['GET', 'POST'])
