@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail
 from .config import Config
+from elasticsearch import Elasticsearch
 import os
 
 db = SQLAlchemy()
@@ -18,8 +19,7 @@ def create_app():
     db.init_app(app)
     migrate = Migrate(app, db, render_as_batch=True)
 
-    app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
-        if app.config['ELASTICSEARCH_URL'] else None
+    app.elasticsearch = Elasticsearch("http://localhost:9200") 
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

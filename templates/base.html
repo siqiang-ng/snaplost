@@ -26,14 +26,16 @@
 
                 <div class="collapse navbar-collapse" id="myNavbar">
 
-                        <form class="navbar-form navbar-left" role="search">
+                        <form class="navbar-form navbar-left" role="search" method="get" 
+                                action = "{{ url_for('main.search') }}">
                             <div class="form-group input-group">
-                                <input type="text" class="form-control" placeholder="Search.."> 
+                                {{ g.search_form.q(class="form-control", 
+                                    placeholder=g.search_form.q.label.text) }}
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
+                                    <button class="btn btn-default" type="submit">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
-                                </span>        
+                                </span>
                             </div>
                         </form>
 

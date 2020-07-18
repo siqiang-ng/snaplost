@@ -10,4 +10,4 @@ class Config(object):
 	MAIL_PASSWORD = 'snaplost'
 	MAIL_USE_TLS = False
 	MAIL_USE_SSL = True
-	ELASTICSEARCH_URL= http://localhost:9200
+	POSTS_PER_PAGE = 24
