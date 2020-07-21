@@ -42,8 +42,12 @@ def create():
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M").time()
 
-            filename = secure_filename(photo.filename)
-            photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
+            if photo: 
+                filename = secure_filename(photo.filename)
+                photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
+            else: 
+                filename = ""
+
             new_item = Item(category=category, item=item, description=description, 
                 occurdate=conDate, time=conTime, number=number, photo=photo.filename, lister=user)
 
@@ -105,7 +109,8 @@ def edit(item_id):
                 updated.number = number
             if (filename != updated.photo):
                 if filename:
-                    os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], updated.photo))
+                    if updated.photo:
+                        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], updated.photo))
                     photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
                     updated.photo = filename
 
