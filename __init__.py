@@ -9,6 +9,7 @@ import os
 db = SQLAlchemy()
 mail = Mail()
 
+
 from flask_login import LoginManager
 
 def create_app():

@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, redirect, flash, request, url_for
+from flask import Blueprint, render_template, redirect, flash, request, url_for, current_app, send_from_directory
 from flask_login import login_required, current_user
 from .models import Item, User
 from . import db
 import os
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 item = Blueprint('item', __name__)
 
@@ -20,6 +21,7 @@ def create():
         occurdate = request.form['occurdate']
         takentime = request.form['time']
         number = request.form['number']
+        photo = request.files['photo']
 
         if not category:
             flash('Category of the listing is required!', 'warning')
@@ -36,12 +38,18 @@ def create():
         if not takentime:
             flash('Time is required!', 'warning')
             return render_template('create.html')
-
         else:
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M").time()
+
+            if photo: 
+                filename = secure_filename(photo.filename)
+                photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
+            else: 
+                filename = ""
+
             new_item = Item(category=category, item=item, description=description, 
-                occurdate=conDate, time=conTime, lister=user)
+                occurdate=conDate, time=conTime, number=number, photo=photo.filename, lister=user)
 
             db.session.add(new_item)
             db.session.commit()
@@ -63,6 +71,7 @@ def edit(item_id):
         occurdate = request.form['occurdate']
         takentime = request.form['time']
         number = request.form['number']
+        photo = request.files['photo']
 
         if not category:
             flash('Category of the listing is required!', 'warning')
@@ -83,6 +92,8 @@ def edit(item_id):
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M:%S").time()
 
+            filename = secure_filename(photo.filename)
+
             updated = Item.query.get(item_id)
             if (category != updated.category):
                 updated.category = category
@@ -96,6 +107,12 @@ def edit(item_id):
                 updated.time = conTime
             if (number != updated.number):
                 updated.number = number
+            if (filename != updated.photo):
+                if filename:
+                    if updated.photo:
+                        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], updated.photo))
+                    photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
+                    updated.photo = filename
 
             db.session.commit()
             flash('"{}" is successfully edited!'.format(name), 'info')
@@ -109,6 +126,7 @@ def edit(item_id):
 def listing(listing_id):
     listing = Item.query.filter_by(id=listing_id).first()
     return render_template('listing.html', listing=listing)
+
 
 @item.route('/<int:item_id>/delete', methods=('POST',))
 @login_required

@@ -8,7 +8,7 @@
 </div>
 
 <br>
-<form method='post'>
+<form method='post' enctype="multipart/form-data">
     <div class="form-group">
         <label for="category"> Category* </label>
         <select class="form-control" id="category" name="category">
@@ -51,9 +51,10 @@
     </div>
 
 
-    <div class="form-group" action="/action_page.php">
+    <div class="form-group">
         <label for="photo">Upload image: </label>
-        <input type="file" id="photo" name="photo" accept="image/*" value="{{ request.form['photo'] or item['photo'] }}">
+        <input type="file" id="photo" name="photo" accept="image/*" value="{{ request.files['photo'] or item['photo'] }}">
+        <span class="help-block">Image ratio of 1:1 is recommended.</span>
     </div>
 
     <div class="form-group">

@@ -1,6 +1,7 @@
 import os 
 
 class Config(object):
+
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	SECRET_KEY = os.urandom(24)
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
@@ -11,3 +12,4 @@ class Config(object):
 	MAIL_USE_TLS = False
 	MAIL_USE_SSL = True
 	POSTS_PER_PAGE = 24
+	UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static')

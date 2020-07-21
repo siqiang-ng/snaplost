@@ -12,7 +12,11 @@
             <br>
             <div class="panel panel-warning">
                 <div class='panel-body'>
-                    <img class='img-responsive' style="width:100%" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Long_March_2D_launching_VRSS-1.jpg" alt="Trying out the image">
+                    {% if listing.photo %}
+                    <img src="{{ url_for('static', filename=listing.photo) }}" class='img-responsive' style="width:100% height:100%">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='default.jpg') }}"  class="img-responsive" style="width:100%" alt="Image">
+                    {% endif %}
                 </div>
             </div>
         </div> 
