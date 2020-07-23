@@ -54,7 +54,8 @@
     <div class="form-group">
         <label for="photo">Upload image: </label>
         <input type="file" id="photo" name="photo" accept="image/*" value="{{ request.files['photo'] or item['photo'] }}">
-        <span class="help-block">Image ratio of 1:1 is recommended.</span>
+        <span class="help-block">Image ratio of 1:1 is recommended. </span>
+        <span class="help-block">If you do not wish to modify the current image, you can submit as so. </span>
     </div>
 
     <div class="form-group">
