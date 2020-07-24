@@ -12,3 +12,4 @@ class Config(object):
 	MAIL_USE_SSL = True
 	POSTS_PER_PAGE = 24
 	UPLOAD_FOLDER = os.path.join(os.getcwd(), 'app/static')
+	ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
