@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} Snaplost Search Results {% endblock %} 
+
+{% block content %}
+	<div class="row">
+		<ul class="pager">
+		  <li class="previous {% if not prev_url %} disabled {% endif %}">
+		  	<a href="{{ prev_url or '#' }}"> Previous</a>
+		  </li>
+		  <li class="next {% if not next_url %} disabled {% endif %}">
+		  	<a href="{{ next_url or '#' }}">Next</a>
+		  </li>
+		</ul>
+	</div>
+	<br>
+	<div class='tab-content'>
+        <div id="lost" class="tab-pane fade in active">       
+            <div class="row">
+                {% for listing in listings %}
+                <a href = "{{ url_for('item.listing', listing_id=listing.id) }}">
+                    <div class="col-sm-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                            	{% if listing.category == "lost" %}
+                            		<b> LOST: </b> {{ listing.item }}
+                            	{% else %}
+                            		<b> FOUND: </b> {{ listing.item }}
+                            	{% endif %}
+                            </div>
+                            <div class="panel-body">
+                                {% if listing.photo %}
+                                <img src="{{ url_for('static', filename=listing.photo) }}" class='img-responsive' style="width:100%">
+                                {% else %}
+                                <img src="{{ url_for('static', filename='default.jpg') }}" class="img-responsive" style="width:100% "; alt="Image">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>  
+                </a>
+                {% endfor %}
+            </div>
+        </div>        
+    </div>
+{% endblock %}
