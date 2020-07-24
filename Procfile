@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn snaplost:app
+web: flask db upgrade; gunicorn snaplost:app --preload
