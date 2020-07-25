@@ -108,8 +108,8 @@ def edit(item_id):
             if (number != updated.number):
                 updated.number = number
             if (filename != updated.photo):
-                if filename:
-                    if updated.photo:
+                if photo: #if there is a photo uploaded
+                    if updated.photo: #if there is already one uploaded photo, remove it.
                         os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], updated.photo))
                     photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
                     updated.photo = filename
