@@ -5,9 +5,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-	# SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
+		'sqlite:///' + os.path.join(basedir, 'app.db')
 	MAIL_SERVER='smtp.gmail.com'
 	MAIL_PORT = 465
 	MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
@@ -17,3 +16,6 @@ class Config(object):
 	POSTS_PER_PAGE = 24
 	UPLOAD_FOLDER = os.path.join(os.getcwd(), 'app/static')
 	ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+	S3_BUCKET=os.environ.get('S3_BUCKET')
+	S3_KEY=os.environ.get('S3_KEY')
+	S3_SECRET=os.environ.get('S3_SECRET_ACCESS_KEY')

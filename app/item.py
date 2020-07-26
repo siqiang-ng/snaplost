@@ -4,7 +4,7 @@ from app.models import Item, User
 from app import db
 import os
 from datetime import datetime
-from werkzeug.utils import secure_filename
+import boto3
 
 item = Blueprint('item', __name__)
 
@@ -13,6 +13,7 @@ item = Blueprint('item', __name__)
 @login_required
 def create():
     user = User.query.get(current_user.id)
+    s3_client = boto3.client('s3')
 
     if request.method == 'POST':
         category = request.form.get('category')
@@ -43,10 +44,8 @@ def create():
             conTime = datetime.strptime(takentime, "%H:%M").time()
 
             if photo: 
-                filename = secure_filename(photo.filename)
-                photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
-            else: 
-                filename = ""
+                filename = photo.filename
+                s3_client.upload_file(photo, 'snaplostesq', photo.filename)
 
             new_item = Item(category=category, item=item, description=description, 
                 occurdate=conDate, time=conTime, number=number, photo=photo.filename, lister=user)
@@ -55,14 +54,16 @@ def create():
             db.session.commit()
             flash('"{}" is successfully listed!'.format(item), 'info')
             return redirect(url_for('main.home'))
+    else:
+        return render_template('create.html')
 
-    return render_template('create.html')
 
 @item.route('/<int:item_id>/edit', methods=('GET','POST'))
 @login_required
 def edit(item_id):
     item = Item.query.filter_by(id=item_id).first()
     user = User.query.get(current_user.id)
+    s3_client = boto3.client('s3')
 
     if request.method == 'POST':
         category = request.form.get('category')
@@ -92,8 +93,6 @@ def edit(item_id):
             conDate = datetime.strptime(occurdate, '%Y-%m-%d')
             conTime = datetime.strptime(takentime, "%H:%M:%S").time()
 
-            filename = secure_filename(photo.filename)
-
             updated = Item.query.get(item_id)
             if (category != updated.category):
                 updated.category = category
@@ -107,12 +106,12 @@ def edit(item_id):
                 updated.time = conTime
             if (number != updated.number):
                 updated.number = number
-            if (filename != updated.photo):
+            if (photo.filename != updated.photo):
                 if photo: #if there is a photo uploaded
                     if updated.photo: #if there is already one uploaded photo, remove it.
-                        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], updated.photo))
-                    photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
-                    updated.photo = filename
+                        s3_client.Object('snaplostesq', updated.photo).delete()
+                    s3_client.upload_file(photo.filename, 'snaplostesq', updated.photo)
+                    # updated.photo = photo.filename
 
             db.session.commit()
             flash('"{}" is successfully edited!'.format(name), 'info')

@@ -5,10 +5,10 @@ from flask_mail import Mail
 from config import Config
 from elasticsearch import Elasticsearch
 import os
+import boto3
 
 db = SQLAlchemy()
 mail = Mail()
-
 
 from flask_login import LoginManager
 

@@ -15,7 +15,8 @@ def before_request():
 def home():
 	losts = Item.query.filter_by(category="lost")
 	founds = Item.query.filter_by(category="found")
-	return render_template('home.html', losts=losts, founds=founds)
+	url = "https://snaplostesq.s3-ap-southeast-1.amazonaws.com/"
+	return render_template('home.html', losts=losts, founds=founds, url=url)
 
 
 @main.route('/dashboard')
