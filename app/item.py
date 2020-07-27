@@ -5,6 +5,7 @@ from app import db
 import os
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from app.resources import get_client, delete_obj
 
 item = Blueprint('item', __name__)
 
@@ -13,6 +14,7 @@ item = Blueprint('item', __name__)
 @login_required
 def create():
     user = User.query.get(current_user.id)
+    s3 = get_client()
 
     if request.method == 'POST':
         category = request.form.get('category')
@@ -48,8 +50,15 @@ def create():
             else: 
                 filename = ""
 
+            with open(os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 'rb') as f:
+                    s3.upload_file(Bucket=current_app.config['S3_BUCKET'], Filename=f.name, Key=filename,
+                    ExtraArgs={
+                    "ACL": "public-read",
+                    "ContentType": photo.content_type
+                })
+
             new_item = Item(category=category, item=item, description=description, 
-                occurdate=conDate, time=conTime, number=number, photo=photo.filename, lister=user)
+                occurdate=conDate, time=conTime, number=number, photo=filename, lister=user)
 
             db.session.add(new_item)
             db.session.commit()
@@ -110,9 +119,16 @@ def edit(item_id):
             if (filename != updated.photo):
                 if filename:
                     if updated.photo:
-                        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], updated.photo))
+                        delete_obj(updated.photo)
                     photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
                     updated.photo = filename
+
+                with open(os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 'rb') as f:
+                    s3.upload_file(Bucket=current_app.config['S3_BUCKET'], Filename=f.name, Key=filename,
+                    ExtraArgs={
+                    "ACL": "public-read",
+                    "ContentType": photo.content_type
+                })
 
             db.session.commit()
             flash('"{}" is successfully edited!'.format(name), 'info')
@@ -125,7 +141,8 @@ def edit(item_id):
 @item.route('/<int:listing_id>')
 def listing(listing_id):
     listing = Item.query.filter_by(id=listing_id).first()
-    return render_template('listing.html', listing=listing)
+    location = current_app.config['S3_LOCATION']
+    return render_template('listing.html', listing=listing, location=location)
 
 
 @item.route('/<int:item_id>/delete', methods=('POST',))

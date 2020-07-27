@@ -22,9 +22,9 @@
                             <div class="panel-heading">{{ lost.item }}</div>
                             <div class="panel-body">
                                 {% if lost.photo %}
-                                <img src="{{ url_for('static', filename=lost.photo) }}" class='img-responsive center' style="width:100%" >
+                                <img src="{{ location }}{{ lost.photo }}" class='img-responsive center' style="width:100%" >
                                 {% else %}
-                                <img src="{{ url_for('static', filename='default.jpg') }}"  class="img-responsive center" style="width:100%" alt="Image">
+                                <img src="https://snaplostesq.s3-ap-southeast-1.amazonaws.com/default.jpg"  class="img-responsive center" style="width:100%" alt="Image">
                                 {% endif %}
                             </div>
                         </div>
@@ -43,9 +43,9 @@
                             <div class="panel-heading">{{ found.item }}</div>
                             <div class="panel-body">
                                 {% if found.photo %}
-                                <img src="{{ url_for('static', filename=found.photo) }}" class='img-responsive center' style="width:100%">
+                                <img src="{{ location }}{{ found.photo }}" class='img-responsive center' style="width:100%">
                                 {% else %}
-                                <img src="{{ url_for('static', filename='default.jpg') }}"  class="img-responsive center" style="width:100%" alt="Image">
+                                <img src="https://snaplostesq.s3-ap-southeast-1.amazonaws.com/default.jpg"  class="img-responsive center" style="width:100%" alt="Image">
                                 {% endif %}
                             </div>
                         </div>

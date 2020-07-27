@@ -15,7 +15,8 @@ def before_request():
 def home():
 	losts = Item.query.filter_by(category="lost")
 	founds = Item.query.filter_by(category="found")
-	return render_template('home.html', losts=losts, founds=founds)
+	location = current_app.config['S3_LOCATION'] 
+	return render_template('home.html', losts=losts, founds=founds, location=location)
 
 
 @main.route('/dashboard')
@@ -36,4 +37,5 @@ def search():
 		if total > page * current_app.config['POSTS_PER_PAGE'] else None
 	prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) \
 		if page > 1 else None
-	return render_template('search.html', listings=listings, next_url=next_url, prev_url=prev_url)
+	return render_template('search.html', listings=listings, next_url=next_url, 
+		prev_url=prev_url, location=current_app.config['S3_LOCATION'])
