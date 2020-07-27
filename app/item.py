@@ -51,7 +51,7 @@ def create():
                 filename = ""
 
             with open(os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 'rb') as f:
-                    s3.upload_file(Bucket=current_app.config['S3_BUCKET'], Filename=f.name, Key=filename,
+                    s3.upload_file(Bucket='snaplostesq', Filename=f.name, Key=filename,
                     ExtraArgs={
                     "ACL": "public-read",
                     "ContentType": photo.content_type
@@ -130,7 +130,7 @@ def edit(item_id):
                     updated.photo = filename
 
                 with open(os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 'rb') as f:
-                    s3.upload_file(Bucket=current_app.config['S3_BUCKET'], Filename=f.name, Key=filename,
+                    s3.upload_file(Bucket='snaplostesq', Filename=f.name, Key=filename,
                     ExtraArgs={
                     "ACL": "public-read",
                     "ContentType": photo.content_type
