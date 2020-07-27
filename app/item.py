@@ -47,15 +47,16 @@ def create():
             if photo: 
                 filename = secure_filename(photo.filename)
                 photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
-            else: 
-                filename = ""
 
-            with open(os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 'rb') as f:
+                with open(os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 'rb') as f:
                     s3.upload_file(Bucket='snaplostesq', Filename=f.name, Key=filename,
                     ExtraArgs={
                     "ACL": "public-read",
                     "ContentType": photo.content_type
                 })
+
+            else: 
+                filename = ""
 
             new_item = Item(category=category, item=item, description=description, 
                 occurdate=conDate, time=conTime, number=number, photo=filename, lister=user)
@@ -129,12 +130,12 @@ def edit(item_id):
                     photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
                     updated.photo = filename
 
-                with open(os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 'rb') as f:
-                    s3.upload_file(Bucket='snaplostesq', Filename=f.name, Key=filename,
-                    ExtraArgs={
-                    "ACL": "public-read",
-                    "ContentType": photo.content_type
-                })
+                    with open(os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 'rb') as f:
+                        s3.upload_file(Bucket='snaplostesq', Filename=f.name, Key=filename,
+                        ExtraArgs={
+                        "ACL": "public-read",
+                        "ContentType": photo.content_type
+                    })
 
             db.session.commit()
             flash('"{}" is successfully edited!'.format(name), 'info')
