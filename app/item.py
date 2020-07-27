@@ -73,6 +73,7 @@ def create():
 def edit(item_id):
     item = Item.query.filter_by(id=item_id).first()
     user = User.query.get(current_user.id)
+    s3 = get_client()
 
     if request.method == 'POST':
         category = request.form.get('category')
@@ -119,13 +120,9 @@ def edit(item_id):
                 updated.number = number
             if (filename != updated.photo):
 
-                if filename:
-                    if updated.photo:
-                        delete_obj(updated.photo)
-
                 if photo: #if there is a photo uploaded
                     if updated.photo: #if there is already one uploaded photo, remove it.
-                        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], updated.photo))
+                        delete_obj(updated.photo)
 
                     photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
                     updated.photo = filename
